@@ -1,333 +1,372 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Project A — 스마트 과자 자판기 (Official)</title>
-<meta name="description" content="Project A — 차세대 스마트 과자 자판기. 정밀 하드웨어, 클라우드 기반 데이터, 아름다운 UX."/>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍪</text></svg>">
-<style>
-/* ---------------------------------------------
-   Project A — Single-file modern UI
-   - Responsive layout (mobile-first)
-   - Sticky nav, smooth animations, modal, contact form, donate section
-   - Accessibility-minded: ARIA attributes, focus states
-   ----------------------------------------------*/
-:root{
-  --bg:#05020c;
-  --card:#0c0b12cc;
-  --glass:rgba(255,255,255,0.04);
-  --muted:#c7c7cf;
-  --accent1:#ff3ec7;
-  --accent2:#4b6bff;
-  --success:#26d07b;
-  --danger:#ff6b6b;
-  --radius:18px;
-  font-family:Inter, Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background:
-    radial-gradient(600px 400px at 10% 10%, rgba(255,62,199,0.06), transparent),
-    radial-gradient(700px 500px at 90% 90%, rgba(75,107,255,0.06), transparent),
-    var(--bg);
-  color:#fff;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.5;
-}
-.container{width:90%;max-width:1200px;margin:0 auto}
-/* NAV */
-.header{
-  position:sticky;top:0;z-index:60;background:linear-gradient(180deg, rgba(10,8,15,0.6), rgba(10,8,15,0.35));backdrop-filter: blur(8px);
-  border-bottom:1px solid rgba(255,255,255,0.04);
-}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.brand{display:flex;align-items:center;gap:12px}
-.brand h3{margin:0;font-size:18px;letter-spacing:0.6px;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;color:transparent}
-.navlinks{display:flex;gap:18px;align-items:center}
-.navlinks a{color:var(--muted);text-decoration:none;font-weight:600;font-size:15px;padding:8px;border-radius:10px}
-.navlinks a:hover{color:#fff;background:linear-gradient(90deg, rgba(255,255,255,0.03), transparent)}
-.cta{padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;font-weight:800;cursor:pointer;border:none}
-.menu-toggle{display:none}
-/* HERO */
-.hero{padding:84px 0 40px}
-.hero-grid{display:grid;grid-template-columns:1fr;gap:28px;align-items:center}
-.hero-title{font-size:clamp(28px,6vw,56px);margin:0;line-height:1.02;font-weight:900;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;color:transparent}
-.lead{color:var(--muted);font-size:16px;max-width:56ch}
-.hero-cta{display:flex;gap:12px;align-items:center;margin-top:18px}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03);font-weight:700}
-.visual-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
-.machine{height:320px;border-radius:12px;background:linear-gradient(135deg, rgba(255,62,199,0.06), rgba(75,107,255,0.05));display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:800}
-/* FEATURES */
-.grid{display:grid;grid-template-columns:1fr;gap:20px}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));border-radius:18px;padding:22px;border:1px solid rgba(255,255,255,0.04)}
-.feature-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.feature{display:flex;gap:12px;align-items:flex-start}
-.feature .icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(90deg,var(--accent1),var(--accent2));font-weight:800}
-/* ROADMAP */
-.roadmap{display:flex;flex-direction:column;gap:12px}
-.step{display:flex;gap:14px;align-items:flex-start}
-.step .num{min-width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.03);display:grid;place-items:center;font-weight:800}
-/* TEAM */
-.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.member{padding:16px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent);text-align:center}
-.avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:inline-grid;place-items:center;font-weight:900}
-/* CONTACT / DONATE */
-.grid-2{display:grid;grid-template-columns:1fr;gap:20px}
-.form{display:flex;flex-direction:column;gap:12px}
-.input,textarea{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:10px;color:#fff}
-.text-muted{color:var(--muted);font-size:13px}
-.row{display:flex;gap:12px}
-/* FOOTER */
-footer{padding:36px 0 80px;color:var(--muted)}
-.small{font-size:13px}
-/* MODAL */
-.modal-backdrop{position:fixed;inset:0;background:rgba(4,4,6,0.7);display:none;align-items:center;justify-content:center;z-index:80}
-.modal{width:min(720px,92%);background:linear-gradient(180deg, #0e0d15, #0b0911);border-radius:14px;padding:20px;border:1px solid rgba(255,255,255,0.04)}
-/* utility */
-.kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);font-weight:800}
-.hstack{display:flex;gap:12px;align-items:center}
-.center{display:grid;place-items:center}
-/* responsiveness */
-@media(min-width:720px){
-  .hero-grid{grid-template-columns:1fr 420px}
-  .feature-list{grid-template-columns:repeat(2,1fr)}
-  .grid-2{grid-template-columns:1fr 420px}
-  .team-grid{grid-template-columns:repeat(4,1fr)}
-  .navlinks{gap:24px}
-}
-@media(max-width:720px){
-  .menu-toggle{display:inline-flex}
-  .navlinks{display:none}
-}
-/* animations */
-.fade-up{opacity:0;transform:translateY(16px);transition:all 600ms cubic-bezier(.2,.9,.2,1)}
-.fade-up.show{opacity:1;transform:none}
-.btn-subtle{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:12px;color:var(--muted)}
-/* focus states */
-a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(75,107,255,0.12);outline-offset:3px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project A — 스마트 과자 자판기 (Official)</title>
+  <meta name="description" content="Project A — 밝고 미래적인 스마트 과자 자판기 소개. 제품 개요, 기술, 팀, 로드맵, 문의." />
+  <meta name="theme-color" content="#FFFFFF">
+  <style>
+    /* Bright, clean, modern product landing (no images) */
+    :root{
+      --bg:#f7f9fb;
+      --surface:#ffffff;
+      --muted:#6b7280;
+      --accent:#0f6cff; /* soft azure */
+      --accent-2:#0b8cff;
+      --glass:rgba(15,108,255,0.06);
+      --radius:14px;
+      --shadow: 0 6px 20px rgba(16,24,40,0.06);
+      --shadow-2: 0 10px 40px rgba(16,24,40,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:#0b1220;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;line-height:1.5}
+    .container{width:92%;max-width:1200px;margin:0 auto}
+
+    /* Header */
+    .header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(120%) blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.75));border-bottom:1px solid rgba(15,20,30,0.04)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#f8fbff,#eef6ff);display:grid;place-items:center;font-weight:800;color:var(--accent);font-size:18px;border:1px solid rgba(15,108,255,0.06)}
+    .brand h1{margin:0;font-size:16px;letter-spacing:-0.2px}
+    .navlinks{display:flex;gap:18px;align-items:center}
+    .navlinks a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;padding:8px;border-radius:10px}
+    .navlinks a:focus,.navlinks a:hover{color:var(--accent);outline:none}
+    .cta{padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;cursor:pointer;border:none;box-shadow:var(--shadow)}
+    .menu-toggle{display:none}
+
+    /* Hero */
+    .hero{padding:72px 0 40px}
+    .hero-grid{display:grid;grid-template-columns:1fr;gap:28px;align-items:center}
+    .hero-title{font-size:clamp(28px,6vw,48px);margin:0;line-height:1.03;font-weight:800;color:#07102a}
+    .lead{color:var(--muted);font-size:16px;max-width:62ch;margin-top:12px}
+    .hero-cta{display:flex;gap:12px;align-items:center;margin-top:18px}
+    .stat-row{display:flex;gap:12px;margin-top:18px}
+    .stat{background:var(--surface);padding:12px 14px;border-radius:12px;box-shadow:var(--shadow);min-width:120px}
+    .stat strong{display:block;font-size:18px}
+
+    /* Mock product card (pure CSS, no images) */
+    .device-card{background:linear-gradient(180deg,#ffffff,#fbfdff);border-radius:18px;padding:20px;border:1px solid rgba(15,20,30,0.04);box-shadow:var(--shadow-2)}
+    .device-front{height:320px;border-radius:12px;background:linear-gradient(180deg,#f7fbff,#ffffff);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(15,20,30,0.03)}
+    .device-screen{width:320px;height:180px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#f2f7ff);display:grid;place-items:center;border:1px solid rgba(15,20,30,0.03)}
+    .pill{display:inline-flex;gap:10px;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(11,140,255,0.06);color:var(--accent);font-weight:700}
+
+    /* Sections */
+    section{padding:36px 0}
+    h2{margin:0 0 12px 0;font-size:20px}
+    .card{background:var(--surface);padding:20px;border-radius:14px;box-shadow:var(--shadow);border:1px solid rgba(15,20,30,0.03)}
+
+    /* Features grid */
+    .features{display:grid;grid-template-columns:repeat(1,1fr);gap:16px}
+    .feature{display:flex;gap:12px;align-items:flex-start}
+    .feature .icon{width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,#f3f8ff,#fff);display:grid;place-items:center;font-weight:800;color:var(--accent);border:1px solid rgba(15,108,255,0.06)}
+    .feature strong{display:block}
+    .feature p{margin:6px 0 0 0;color:var(--muted)}
+
+    /* Team */
+    .team-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px}
+    .member{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid rgba(15,20,30,0.03)}
+    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,#f8fbff,#eef6ff);display:grid;place-items:center;font-weight:800;color:var(--accent);font-size:22px}
+    .member .meta{flex:1}
+    .member .meta .name{font-weight:700}
+    .member .meta .role{color:var(--muted);font-size:13px}
+    .member .bio{color:var(--muted);font-size:13px}
+
+    /* Roadmap */
+    .roadmap{display:flex;flex-direction:column;gap:10px}
+    .step{display:flex;gap:12px;align-items:flex-start}
+    .step .num{min-width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#f7fbff,#ffffff);display:grid;place-items:center;border:1px solid rgba(15,20,30,0.03);font-weight:800}
+
+    /* Contact */
+    .grid-2{display:grid;grid-template-columns:1fr;gap:16px}
+    input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(15,20,30,0.06);background:#fff}
+    .form small{color:var(--muted)}
+
+    /* Footer */
+    footer{padding:36px 0;color:var(--muted)}
+
+    /* Responsive */
+    @media(min-width:840px){
+      .hero-grid{grid-template-columns:1fr 420px}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .team-grid{grid-template-columns:repeat(4,1fr)}
+      .grid-2{grid-template-columns:1fr 420px}
+    }
+
+    /* Micro interactions */
+    a,button{transition:all 180ms cubic-bezier(.2,.9,.2,1)}
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(16,24,40,0.08)}
+    .member:hover{transform:translateY(-6px)}
+
+    /* Accessibility helpers */
+    a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(15,108,255,0.12);outline-offset:3px}
+  </style>
 </head>
 <body>
-<header class="header">
-  <div class="container nav">
-    <div class="brand" aria-hidden="false">
-      <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:900">PA</div>
-      <h3>Project A</h3>
-    </div>
-    <nav>
-      <button class="menu-toggle btn-subtle" aria-expanded="false" aria-controls="main-nav" onclick="toggleMenu(this)">☰</button>
-      <div id="main-nav" class="navlinks" role="navigation">
-        <a href="#features">기능</a>
-        <a href="#roadmap">로드맵</a>
-        <a href="#team">팀</a>
-        <a href="#contact">문의</a>
-        <a href="#donate" class="cta">후원하기</a>
+  <header class="header">
+    <div class="container nav" role="navigation" aria-label="Primary">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">PA</div>
+        <h1>Project A</h1>
       </div>
-    </nav>
-  </div>
-</header>
-<main>
-  <section class="hero container" aria-labelledby="hero-title">
-    <div class="hero-grid">
-      <div>
-        <div class="kicker">신제품 · 2025</div>
-        <h1 id="hero-title" class="hero-title">Project A — 스마트 과자 자판기, 다시 정의하다</h1>
-        <p class="lead">정밀 모터 제어와 감성적 인터페이스를 결합한 차세대 자동판매기. 실시간 재고/판매 분석, 원격 유지보수, 그리고 사용자를 설레게 하는 경험을 제공합니다.</p>
-        <div class="hero-cta">
-          <button class="cta" onclick="openDemo()">데모 시연 요청 (불가)</button>
-          <button class="btn-subtle" onclick="openModal('contact')">문의하기</button>
+      <nav style="display:flex;align-items:center;gap:14px">
+        <div class="navlinks" id="main-nav">
+          <a href="#features">기능</a>
+          <a href="#vision">비전</a>
+          <a href="#team">팀</a>
+          <a href="#roadmap">로드맵</a>
+          <a href="#contact">문의</a>
         </div>
-        <div style="margin-top:16px;color:var(--muted);font-size:13px">문의전화: <strong>010-4132-6890</strong> · 이메일: <strong>wecodebusiness1125@gmail.com</strong></div>
-      </div>
-      <div class="visual-card fade-up" id="visual" aria-hidden="true">
-        <div class="machine"></div>
-        <div style="display:flex;justify-content:space-between;margin-top:12px;color:var(--muted);font-size:13px">
-          <div>실시간 재고: <strong>null개</strong></div>
-          <div>연결상태: <strong style="color:var(--success)">OFFLINE</strong></div>
-        </div>
-      </div>
+        <button class="cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">문의하기</button>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section id="features" class="container" style="padding-bottom:18px">
-    <div class="grid">
-      <div class="card fade-up">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h2 style="margin:0">핵심 기능</h2>
-          <div class="kicker">실무 중심</div>
-        </div>
-        <p class="text-muted" style="margin-top:10px">하드웨어와 소프트웨어를 함께 고려한 통합 솔루션.</p>
-        <div class="feature-list" style="margin-top:16px">
-          <div class="feature"><div class="icon">⚙️</div><div><strong>정밀 모터 제어</strong><div class="text-muted">마이크로 스텝으로 안정적 낙하</div></div></div>
-          <div class="feature"><div class="icon">☁️</div><div><strong>클라우드 연동</strong><div class="text-muted">실시간 재고 & 통계 대시보드</div></div></div>
-          <div class="feature"><div class="icon">🔋</div><div><strong>저전력 모드</strong><div class="text-muted">지능형 절전 알고리즘</div></div></div>
-          <div class="feature"><div class="icon">💡</div><div><strong>커스텀 LED 시퀀스</strong><div class="text-muted">브랜드 경험을 위한 조명 편집</div></div></div>
-        </div>
-      </div>
+  <main>
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div>
+          <div style="display:flex;gap:10px;align-items:center"><span style="font-weight:700;color:var(--accent);">신제품 · 2025</span></div>
+          <h2 id="hero-title" class="hero-title">Project A — 더 똑똑하고, 더 설레는<br/><span style="color:var(--accent);">스마트 과자 자판기</span></h2>
+          <p class="lead">정밀한 하드웨어 설계와 직관적인 소프트웨어를 결합하여 사용자 경험을 재정의합니다. 간결한 인터페이스, 높은 신뢰성, 그리고 운영자가 사랑하는 관리 툴.</p>
 
-      <div class="card fade-up">
-        <h2 style="margin:0">관리 포털 & API</h2>
-        <p class="text-muted" style="margin-top:10px">운영자가 원격에서 재고/결제/진단을 관리할 수 있는 포털과 REST API 제공.</p>
-        <ul style="margin-top:12px;color:var(--muted)">
-          <li>• 권한 기반 계정관리 (관리자, 엔지니어, 매장)</li>
-          <li>• WebSocket 실시간 이벤트 (판매, 경보)</li>
-          <li>• OTA 펌웨어 업데이트 지원</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="roadmap" class="container" style="padding-top:8px;padding-bottom:18px">
-    <div class="card fade-up">
-      <h2 style="margin:0">로드맵 (단계별)</h2>
-      <p class="text-muted" style="margin-top:8px">Step-by-step으로 개발·배포 계획을 명확하게 제시합니다.</p>
-      <div class="roadmap" style="margin-top:12px">
-        <div class="step"><div class="num">1</div><div><strong>Prototype</strong><div class="text-muted">하드웨어 설계, 기본 회로, 모터 제어 검증</div></div></div>
-        <div class="step"><div class="num">2</div><div><strong>Alpha</strong><div class="text-muted">기본 UI/UX, 간단한 클라우드 연동, 시범 운영</div></div></div>
-        <div class="step"><div class="num">3</div><div><strong>Beta</strong><div class="text-muted">안정화, 결제 연동, 보안 점검</div></div></div>
-        <div class="step"><div class="num">4</div><div><strong>Production</strong><div class="text-muted">양산, 고객사 배치, SLA 제공</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="team" class="container" style="padding-top:8px;padding-bottom:18px">
-    <h2>팀 소개</h2>
-    <div class="team-grid" style="margin-top:12px">
-      <div class="member fade-up"><div class="avatar">임</div><div style="margin-top:10px;font-weight:800">임휘승</div><div class="text-muted small">팀장 · 회로/시스템 설계</div></div>
-      <div class="member fade-up"><div class="avatar">노</div><div style="margin-top:10px;font-weight:800">노태군</div><div class="text-muted small">구조 설계 & 조립</div></div>
-      <div class="member fade-up"><div class="avatar">전</div><div style="margin-top:10px;font-weight:800">전현우</div><div class="text-muted small">펌웨어 & 센서 로직</div></div>
-      <div class="member fade-up"><div class="avatar">최</div><div style="margin-top:10px;font-weight:800">최유준</div><div class="text-muted small">디자인 · UX</div></div>
-    </div>
-  </section>
-
-  <section id="contact" class="container" style="padding-top:8px;padding-bottom:18px">
-    <div class="grid-2">
-      <div class="card fade-up">
-        <h3>문의하기</h3>
-        <p class="text-muted">사업 제휴, 기술문의, 시연 요청을 아래로 남겨주세요. (이 기능은 firebase 리소스 문제로 이메일,전화번호로 문의 바람)</p>
-        <form id="contact-form" class="form" onsubmit="submitContact(event)">
-          <input class="input" id="name" placeholder="이름" required />
-          <input class="input" id="email" type="email" placeholder="you@domain.com" required />
-          <input class="input" id="phone" placeholder="전화번호 (예: 010-1234-5678)" />
-          <textarea id="message" class="input" placeholder="문의 내용" rows="5"></textarea>
-          <div class="row">
-            <button type="submit" class="cta">보내기</button>
-            <button type="button" class="btn-subtle" onclick="clearContact()">초기화</button>
+          <div class="hero-cta">
+            <button class="cta" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">제품 자세히 보기</button>
+            <button class="" onclick="document.getElementById('team').scrollIntoView({behavior:'smooth'})" style="padding:10px 14px;border-radius:12px;border:1px solid rgba(15,20,30,0.04);background:transparent;font-weight:700">팀 보기</button>
           </div>
-          <div id="form-result" class="text-muted small" aria-live="polite"></div>
-        </form>
-      </div>
 
-      <div class="card fade-up">
-        <h3>후원 · 파트너</h3>
-        <p class="text-muted">프로젝트를 돕고 싶으신가요? 소액 후원부터 기업 파트너십까지 환영합니다.</p>
-        <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
-          <div class="small text-muted">후원 방법</div>
-          <div class="row">
-            <button class="cta" onclick="openModal('donate')">카드로 후원 불가 (현재 기술 도입 중.. 계좌로 입금 바람)</button>
-            <button class="btn-subtle" onclick="openModal('partner')">기업 파트너</button>
+          <div class="stat-row" aria-hidden="false">
+            <div class="stat"><small class="text-muted">예상 배터리</small><strong>일반 사용 8+ 시간</strong></div>
+            <div class="stat"><small class="text-muted">OTA 업데이트</small><strong>지원</strong></div>
+            <div class="stat"><small class="text-muted">연결</small><strong>Wi‑Fi / LTE</strong></div>
           </div>
-          <div style="margin-top:6px;color:var(--muted);font-size:13px">계좌: KB국민은행 605390-74-035254 (예금주: 임휘승)</div>
+        </div>
+
+        <aside class="device-card" aria-hidden="true">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+            <div>
+              <div style="font-weight:800">Project A — Device</div>
+              <div style="color:var(--muted);font-size:13px">클린/모던 디자인, 실사용에 최적화</div>
+            </div>
+            <div class="pill">테스트 • 2025</div>
+          </div>
+          <div class="device-front" role="img" aria-label="디바이스 미리보기">
+            <div class="device-screen" aria-hidden="true">
+              <div style="text-align:center">
+                <div style="font-weight:800;font-size:18px;color:#07203b">LIVE DASHBOARD</div>
+                <div style="margin-top:10px;color:var(--muted);font-size:13px">실시간 재고 · 상태 · 로그</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+              <div class="card" style="padding:8px 10px;border-radius:10px;">재고: <strong>24</strong></div>
+              <div class="card" style="padding:8px 10px;border-radius:10px;">상태: <strong style="color:var(--accent)">정상</strong></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="features" class="container">
+      <div class="card">
+        <h2>핵심 기능</h2>
+        <p class="lead" style="margin-top:8px">운영과 사용성을 동시에 고려한 설계로, 현장에서 곧바로 사용할 수 있습니다.</p>
+
+        <div class="features" style="margin-top:16px">
+          <div class="feature card">
+            <div class="icon">⚙️</div>
+            <div>
+              <strong>정밀 모터 제어</strong>
+              <p>마이크로스텝 기반의 안정적 낙하, 물리량 기반 충돌 감지로 과자 파손 최소화.</p>
+            </div>
+          </div>
+
+          <div class="feature card">
+            <div class="icon">☁️</div>
+            <div>
+              <strong>클라우드 통합 대시보드</strong>
+              <p>판매/재고/이상상태를 한눈에 보는 운영 포털. 권한별 접근 제어와 CSV 보고서.</p>
+            </div>
+          </div>
+
+          <div class="feature card">
+            <div class="icon">🔒</div>
+            <div>
+              <strong>안전한 결제 연동</strong>
+              <p>카드·NFC·QR 결제 지원, PCI 레벨 고려한 인증 설계.</p>
+            </div>
+          </div>
+
+          <div class="feature card">
+            <div class="icon">🔋</div>
+            <div>
+              <strong>저전력 설계</strong>
+              <p>스마트 절전 스케줄, 대기모드에서의 빠른 복귀.</p>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="faq" class="container" style="padding-top:8px;padding-bottom:18px">
-    <div class="card fade-up">
-      <h3>자주 묻는 질문</h3>
-      <details style="margin-top:12px"><summary style="cursor:pointer">배터리 수명은 어느 정도인가요?</summary><div class="text-muted" style="margin-top:8px">향시 전원을 공급하여야 하오나, 회로 이슈로 1시간 이상 가동을 추천드리진 않습니다.</div></details>
-      <details style="margin-top:8px"><summary style="cursor:pointer">결제 수단은 어떤 것을 지원하나요?</summary><div class="text-muted" style="margin-top:8px">카드, NFC, QR결제(간편결제 연동), 그리고 향후 암호화폐 게이트웨이 연동 예정.</div></details>
-    </div>
-  </section>
+    <section id="vision" class="container">
+      <div class="card">
+        <h2>제품 철학 · 비전</h2>
+        <p class="lead" style="margin-top:8px">우리는 ‘사람을 설레게 하는 작은 순간’을 제품으로 만든다고 믿습니다. 하드웨어의 견고함과 소프트웨어의 디테일이 만나 일상의 경험을 바꿉니다.</p>
 
-</main>
+        <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:12px;margin-top:16px">
+          <div class="card" style="display:flex;gap:12px;align-items:center">
+            <div style="min-width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>
+            <div>
+              <strong>사소한 즐거움의 재발견</strong>
+              <div style="color:var(--muted);font-size:13px">직관적 인터랙션으로 구매 경험을 더 매력적으로.</div>
+            </div>
+          </div>
 
-<footer class="container">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-    <div>
-      <div style="font-weight:800">Project A</div>
-      <div class="small text-muted">사업자 등록번호: 신청 중... · 대표: 임휘승</div>
+          <div class="card" style="display:flex;gap:12px;align-items:center">
+            <div style="min-width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>
+            <div>
+              <strong>운영자의 관점</strong>
+              <div style="color:var(--muted);font-size:13px">현장에서 바로 쓰는 관리 도구, 로그와 원격 진단.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="container">
+      <h2>팀</h2>
+      <p class="lead" style="margin-top:8px">경험 많은 하드웨어·펌웨어·디자인 전문가들이 모였습니다.</p>
+      <div class="team-grid" style="margin-top:12px">
+        <div class="member card" tabindex="0">
+          <div class="avatar">임</div>
+          <div class="meta">
+            <div class="name">임휘승</div>
+            <div class="role">팀장 · 회로/시스템 설계</div>
+            <div class="bio">하드웨어 아키텍처와 시스템 통합을 책임집니다.</div>
+          </div>
+        </div>
+
+        <div class="member card" tabindex="0">
+          <div class="avatar">노</div>
+          <div class="meta">
+            <div class="name">노태군</div>
+            <div class="role">부팀장 · 코딩</div>
+            <div class="bio">코딩을 담당합니다.</div>
+          </div>
+        </div>
+
+        <div class="member card" tabindex="0">
+          <div class="avatar">전</div>
+          <div class="meta">
+            <div class="name">전현우</div>
+            <div class="role">PPT 제작</div>
+            <div class="bio">소개 PPT를 제작,디자인 합니다.</div>
+          </div>
+        </div>
+
+        <div class="member card" tabindex="0">
+          <div class="avatar">최</div>
+          <div class="meta">
+            <div class="name">최유준</div>
+            <div class="role">디자인 · 아이디어</div>
+            <div class="bio">디자인과 아이디어, 팀의 분위기 메이킹을 담당합니다.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="roadmap" class="container">
+      <div class="card">
+        <h2>로드맵</h2>
+        <div class="roadmap" style="margin-top:12px">
+          <div class="step"><div class="num">1</div><div><strong>Prototype</strong><div style="color:var(--muted);font-size:13px">하드웨어 기본 검증, 초기 펌웨어</div></div></div>
+          <div class="step"><div class="num">2</div><div><strong>Alpha</strong><div style="color:var(--muted);font-size:13px">초기 고객 실증, 관리 포털 베타</div></div></div>
+          <div class="step"><div class="num">3</div><div><strong>Beta</strong><div style="color:var(--muted);font-size:13px">결제 연동, 보안 검증</div></div></div>
+          <div class="step"><div class="num">4</div><div><strong>Production</strong><div style="color:var(--muted);font-size:13px">양산 및 고객 배치</div></div></div>
+        </div>
+      </div>
+    </section>
+
+<section id="contact" class="container">
+  <div class="grid-2">
+    <div class="card">
+      <h3>문의하기</h3>
+      <p class="lead" style="margin-top:8px">
+        사업 제휴나 제품 데모 요청은 아래 폼 혹은 이메일로 보내주세요.
+      </p>
+
+      <!-- ✅ 실제 작동하는 Formspree 폼 -->
+      <form
+        class="form"
+        action="https://formspree.io/f/xeovozww"
+        method="POST"
+      >
+        <input name="name" placeholder="이름" required />
+        <input name="email" type="email" placeholder="you@domain.com" required />
+        <textarea name="message" rows="5" placeholder="문의 내용" required></textarea>
+
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="cta" type="submit">보내기</button>
+          <button
+            type="reset"
+            style="padding:10px 14px;border-radius:12px;border:1px solid rgba(15,20,30,0.04);background:transparent"
+          >
+            초기화
+          </button>
+        </div>
+      </form>
+
+      <!-- 결과 메시지 표시 -->
+      <div
+        id="form-result"
+        style="margin-top:8px;color:var(--muted);font-size:13px"
+      ></div>
     </div>
-    <div class="small text-muted">© 2025 Project A Team — All Rights Reserved</div>
+
+    <aside
+      class="card"
+      style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"
+    >
+      <div style="font-weight:800">연락처</div>
+      <div style="color:var(--muted);font-size:13px">
+        전화: <strong>010-4132-6890</strong>
+      </div>
+      <div style="color:var(--muted);font-size:13px">
+        이메일: <strong>wecodebusiness1125@gmail.com</strong>
+      </div>
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">
+        계좌: KB국민은행 605390-74-035254 (예금주: 임휘승)
+      </div>
+    </aside>
   </div>
-</footer>
-
-<!-- MODALS -->
-<div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-hidden="true" aria-modal="true">
-  <div class="modal" role="document" id="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 id="modal-title">팝업</h3>
-      <button class="btn-subtle" onclick="closeModal()">✕</button>
-    </div>
-    <div id="modal-body" style="margin-top:12px;color:var(--muted)"></div>
-  </div>
-</div>
+</section>
 
 <script>
-// small helpers: progressive reveal
-window.addEventListener('load',()=>{
-  document.querySelectorAll('.fade-up').forEach((el,i)=>setTimeout(()=>el.classList.add('show'),120*i));
-});
+  // Formspree 폼 전송 (AJAX)
+  const form = document.querySelector(".form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const result = document.getElementById("form-result");
+    const data = new FormData(form);
+    result.textContent = "전송 중...";
 
-function toggleMenu(btn){
-  const nav=document.getElementById('main-nav');
-  const expanded = btn.getAttribute('aria-expanded') === 'true';
-  btn.setAttribute('aria-expanded', String(!expanded));
-  if(!expanded){nav.style.display='flex';nav.style.gap='16px'} else {nav.style.display='none'}
-}
-
-// Modal
-function openModal(kind){
-  const backdrop=document.getElementById('modal-backdrop');
-  const body=document.getElementById('modal-body');
-  const title=document.getElementById('modal-title');
-  backdrop.style.display='flex';backdrop.setAttribute('aria-hidden','false');
-  if(kind==='donate'){
-    title.textContent='후원하기';
-    body.innerHTML=`<p class='text-muted'>계좌이체로만 후원할 수 있습니다.</p>
-    <div style='display:flex;gap:10px;margin-top:12px'><button class='cta' onclick="fakePay()">카드 결제</button><button class='btn-subtle' onclick="closeModal()">취소</button></div>`;
-  } else if(kind==='contact'){
-    title.textContent='문의하기';
-    body.innerHTML=`<p class='text-muted'>시연 요청이나 기술문의는 contact form을 이용해주세요. (현재 firebase 리소스 문제로 wecodebusiness1125@gmail.com 이 이메일로 보내주세요.) 빠른 회신을 약속드립니다.</p><div style='margin-top:12px'><button class='cta' onclick="document.getElementById('name').focus();closeModal()">문의 폼으로 이동</button></div>`;
-  } else if(kind==='partner'){
-    title.textContent='기업 파트너십';
-    body.innerHTML=`<p class='text-muted'>기업 파트너십에 관심 있으시면 wecodebusiness1125@gmail.com로 연락주세요. 협업 제안서를 검토 후 연락드립니다.</p>`;
-  } else {
-    title.textContent='팝업';body.innerHTML=`<p class='text-muted'>내용</p>`;
-  }
-}
-function closeModal(){document.getElementById('modal-backdrop').style.display='none';document.getElementById('modal-backdrop').setAttribute('aria-hidden','true')}
-
-// fake payment demo
-function fakePay(){
-  const body=document.getElementById('modal-body');
-  body.innerHTML=`<p class='text-muted'>결제 처리중...</p>`;
-  setTimeout(()=>{body.innerHTML=`<p style='color:var(--success);font-weight:800'>후원해주셔서 감사합니다 🎉</p><div style='margin-top:10px' class='text-muted'>영수증은 이메일로 발송됩니다.</div><div style='margin-top:12px'><button class='btn-subtle' onclick='closeModal()'>닫기</button></div>`},1100);
-}
-
-// demo open
-function openDemo(){openModal('donate')}
-
-// contact form
-function submitContact(e){
-  e.preventDefault();
-  const name=document.getElementById('name').value.trim();
-  const email=document.getElementById('email').value.trim();
-  const msg=document.getElementById('message').value.trim();
-  const result=document.getElementById('form-result');
-  if(!name || !email){result.textContent='이름과 이메일을 입력해주세요.';return}
-  result.textContent='전송중...';
-  setTimeout(()=>{result.textContent='문의 접수기능은 현재 firebase 서버가 불안정하여 이메일, 전화번호로 문의 바랍니다. 불편을 드려 죄송합니다.';document.getElementById('contact-form').reset()},900);
-}
-function clearContact(){document.getElementById('contact-form').reset();document.getElementById('form-result').textContent='';}
-
-// Accessibility: close modal with ESC
-window.addEventListener('keydown', (e)=>{if(e.key==='Escape') closeModal()});
+    try {
+      const res = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        result.textContent = "성공적으로 전송되었습니다 ✅";
+        form.reset();
+      } else {
+        result.textContent = "전송 실패. 잠시 후 다시 시도해주세요 ❌";
+      }
+    } catch (err) {
+      result.textContent = "오류 발생: " + err.message;
+    }
+  });
 </script>
-</body>
-</html>
